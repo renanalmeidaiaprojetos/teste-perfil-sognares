@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil Sognares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2F6F4;
+    --surface: #FFFFFF;
+    --surface-2: #E9F0EE;
+    --text: #16231F;
+    --muted: #5B6B66;
+    --border: #DAE5E1;
+    --accent: #146B64;
+    --accent-soft: #E3F1EE;
+    --accent-contrast: #FFFFFF;
+    --gold: #9C6B0B;
+    --gold-soft: #F7ECD6;
+    --danger: #B3261E;
+    --danger-soft: #FBEAE8;
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0F1E1B;
+      --surface: #16302B;
+      --surface-2: #1C3B34;
+      --text: #EAF3F0;
+      --muted: #9BB4AD;
+      --border: #2A4B44;
+      --accent: #57D6C4;
+      --accent-soft: #1C3B36;
+      --accent-contrast: #08221E;
+      --gold: #E7BB55;
+      --gold-soft: #33290F;
+      --danger: #FF8478;
+      --danger-soft: #3A1E1B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0F1E1B;
+    --surface: #16302B;
+    --surface-2: #1C3B34;
+    --text: #EAF3F0;
+    --muted: #9BB4AD;
+    --border: #2A4B44;
+    --accent: #57D6C4;
+    --accent-soft: #1C3B36;
+    --accent-contrast: #08221E;
+    --gold: #E7BB55;
+    --gold-soft: #33290F;
+    --danger: #FF8478;
+    --danger-soft: #3A1E1B;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: auto; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Karla", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  h1, h2, h3, .brand {
+    font-family: "Fraunces", Georgia, "Times New Roman", serif;
+    text-wrap: balance;
+    margin: 0;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-inline: 18px;
+    padding-block: 0 40px;
+  }
+
+  header.top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+  }
+  header.top .inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding-inline: 18px;
+    padding-bottom: 12px;
+  }
+  .brand-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .brand {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--accent);
+  }
+  .brand-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .progress-track {
+    margin-top: 10px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 999px;
+    transition: width 0.35s ease;
+  }
+  .progress-label {
+    margin-top: 6px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hero {
+    padding-block: 22px 8px;
+  }
+  .hero h1 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .hero p {
+    margin: 10px 0 0;
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 52ch;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-top: 16px;
+  }
+  .card.invalid { border-color: var(--danger); box-shadow: 0 0 0 3px var(--danger-soft); }
+
+  .field label.field-label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  input[type="text"]:focus, .option:focus-within, .scale-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .helper { color: var(--muted); font-size: 0.85rem; margin-top: 6px; }
+
+  .section-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+  }
+  .section-desc {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 4px;
+  }
+
+  .situation {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .situation:first-of-type { margin-top: 18px; padding-top: 0; border-top: none; }
+  .situation-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .situation-prompt {
+    margin: 6px 0 12px;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--text);
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    cursor: pointer;
+  }
+  .option input[type="radio"] { accent-color: var(--accent); margin-top: 3px; width: 18px; height: 18px; flex-shrink: 0; }
+  .option .letter {
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .option.is-selected {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+  }
+  .option-text { font-size: 0.94rem; }
+
+  .likert-scale-legend {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.74rem;
+    color: var(--muted);
+    margin: 14px 0 2px;
+    gap: 6px;
+  }
+  .likert-item {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .likert-item:first-of-type { margin-top: 4px; padding-top: 0; border-top: none; }
+  .likert-text { font-size: 0.96rem; margin-bottom: 10px; }
+  .scale-row { display: flex; gap: 8px; }
+  .scale-btn-wrap { flex: 1; }
+  .scale-btn-wrap input[type="radio"] { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .scale-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .scale-btn-wrap input:checked + .scale-btn {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-contrast);
+  }
+
+  .submit-zone { margin-top: 26px; }
+  button.primary {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: none;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-family: "Karla", sans-serif;
+    font-weight: 700;
+    font-size: 1.02rem;
+    cursor: pointer;
+  }
+  button.primary:disabled {
+    background: var(--surface-2);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .submit-note { text-align: center; color: var(--muted); font-size: 0.82rem; margin-top: 10px; }
+
+  .thanks {
+    display: none;
+    min-height: 70vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    gap: 16px;
+  }
+  .thanks.show { display: flex; }
+  .check {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .check svg { width: 32px; height: 32px; stroke: var(--accent); }
+  .thanks h2 { font-size: 1.4rem; }
+  .thanks p { color: var(--muted); max-width: 40ch; }
+  .thanks a.manual-link {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  #formRoot.hide { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress-fill { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="inner">
+    <div class="brand-row">
+      <span class="brand">Clínica Sognares</span>
+      <span class="brand-sub">Processo seletivo</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 de 19 preenchidos</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="formRoot">
+    <div class="hero">
+      <h1>Teste de Perfil Comportamental</h1>
+      <p>Vaga de Estagiária de Recepção / Atendimento. Não existem respostas certas ou erradas — responda pensando em como você realmente agiria ou se enxerga. Leva cerca de 10 minutos.</p>
+    </div>
+
+    <div class="card" id="cardNome">
+      <div class="field">
+        <label class="field-label" for="nomeInput">Nome completo</label>
+        <input type="text" id="nomeInput" placeholder="Digite seu nome completo" autocomplete="name">
+      </div>
+    </div>
+
+    <div class="card" id="cardSituacoes">
+      <div class="section-eyebrow">Bloco A</div>
+      <h2 class="section-title">Situações de atendimento</h2>
+      <p class="section-desc">Leia cada situação e marque a alternativa mais próxima de como você agiria.</p>
+      <div id="situacoesRoot"></div>
+    </div>
+
+    <div class="card" id="cardLikert">
+      <div class="section-eyebrow">Bloco B</div>
+      <h2 class="section-title">Sobre você</h2>
+      <p class="section-desc">Marque o quanto você concorda com cada frase.</p>
+      <div class="likert-scale-legend"><span>1 Discordo totalmente</span><span>5 Concordo totalmente</span></div>
+      <div id="likertRoot"></div>
+    </div>
+
+    <div class="submit-zone">
+      <button class="primary" id="submitBtn" disabled>Finalizar e enviar</button>
+      <p class="submit-note">Ao finalizar, seu WhatsApp abrirá com o resultado pronto para enviar à clínica.</p>
+    </div>
+  </div>
+
+  <div class="thanks" id="thanksScreen">
+    <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+    <h2>Obrigado!</h2>
+    <p>Suas respostas foram registradas. A equipe da Clínica Sognares entrará em contato em breve.</p>
+    <a href="#" class="manual-link" id="manualLink">O WhatsApp não abriu? Toque aqui para enviar</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var SITUATIONS = [
+    { id: "s1", cat: "COM", prompt: "Uma paciente liga muito irritada porque a consulta foi remarcada sem aviso prévio. Você atende a ligação. Qual a primeira atitude que você tomaria?",
+      options: [
+        "Explico rapidamente que não fui eu quem remarcou e transfiro a ligação para outra pessoa resolver.",
+        "Deixo a pessoa desabafar, peço desculpas pelo transtorno e pergunto como posso ajudar a resolver.",
+        "Digo que vou verificar e peço para ela ligar novamente mais tarde.",
+        "Concordo com tudo o que ela diz e prometo coisas que não tenho certeza se poderei cumprir."
+      ], points: [1, 4, 2, 2] },
+    { id: "s2", cat: "COM", prompt: "Você precisa explicar para um paciente idoso, que não tem intimidade com tecnologia, como confirmar a consulta pelo WhatsApp. Como você faz?",
+      options: [
+        "Explico com calma, em linguagem simples, e confirmo se ele conseguiu entender cada passo.",
+        "Envio o passo a passo por escrito, com os termos técnicos normais, e presumo que ele vai entender.",
+        "Digo que é fácil e sugiro que ele peça ajuda a um familiar.",
+        "Faço o processo por ele mesmo, sem explicar nada, só para resolver logo."
+      ], points: [4, 1, 2, 2] },
+    { id: "s3", cat: "ATD", prompt: "Um paciente chega 20 minutos atrasado para a consulta, o que vai atrasar os próximos agendamentos do dia. O que você faz?",
+      options: [
+        "Atendo com cordialidade, explico com transparência o impacto na agenda e busco a melhor solução possível.",
+        "Digo que não vai ser possível atendê-lo por causa do atraso, sem dar mais explicações.",
+        "Atendo normalmente, sem comentar nada, mesmo sabendo que isso vai bagunçar a agenda do dia inteiro.",
+        "Atendo, mas deixo transparecer minha insatisfação com o atraso."
+      ], points: [4, 1, 2, 1] },
+    { id: "s4", cat: "ATD", prompt: "Você percebe que cometeu um erro no agendamento: um paciente vai chegar em um horário que já está ocupado. O que você faz?",
+      options: [
+        "Assumo o erro, aviso a equipe imediatamente e ligo para o paciente propondo uma solução antes que ele chegue.",
+        "Espero o paciente chegar para ver se dá para resolver na hora, sem avisar ninguém antes.",
+        "Tento resolver sozinha e não conto para ninguém, na esperança de que não haja problema.",
+        "Explico que o erro foi do sistema de agendamento."
+      ], points: [4, 2, 1, 1] },
+    { id: "s5", cat: "VND", prompt: "Uma paciente adora o tratamento indicado pela dentista, mas diz que vai \"pensar\" por causa do preço. O que você faz?",
+      options: [
+        "Pergunto com interesse genuíno quais são as dúvidas dela, apresento as formas de pagamento e reforço os benefícios, sem pressionar.",
+        "Digo \"tudo bem\" e não faço mais nada a respeito.",
+        "Insisto bastante e tento fechar a venda ali mesmo, mesmo com ela dizendo que quer pensar.",
+        "Encaminho para a dentista resolver, sem tentar entender o motivo da hesitação."
+      ], points: [4, 1, 2, 2] },
+    { id: "s6", cat: "VND", prompt: "Você bate a meta do mês bem antes do previsto. Qual seria sua reação mais provável?",
+      options: [
+        "Fico motivada a superar ainda mais o resultado e busco novas oportunidades de indicar tratamentos e melhorar o atendimento.",
+        "Relaxo até o mês fechar, já que a meta foi cumprida.",
+        "Fico feliz, mas não muda nada no meu dia a dia.",
+        "Sinto que já fiz minha parte e foco só nas outras tarefas, sem me preocupar em manter o ritmo."
+      ], points: [4, 1, 2, 2] }
+  ];
+
+  var LIKERT = [
+    { id: "l1", cat: "COM", text: "Tenho facilidade para explicar as coisas de um jeito que qualquer pessoa entenda." },
+    { id: "l2", cat: "COM", text: "Consigo manter a calma e ouvir com atenção mesmo quando alguém está alterado." },
+    { id: "l3", cat: "COM", text: "Presto atenção em detalhes ao escrever mensagens e e-mails." },
+    { id: "l4", cat: "COM", text: "Sinto-me confortável falando com pessoas desconhecidas, pessoalmente ou por telefone." },
+    { id: "l5", cat: "ATD", text: "Coloco-me no lugar do outro antes de responder ou agir." },
+    { id: "l6", cat: "ATD", text: "Prefiro ajudar a resolver o problema de alguém mesmo quando o erro não foi meu." },
+    { id: "l7", cat: "ATD", text: "Assumo meus erros com facilidade e busco corrigi-los rapidamente." },
+    { id: "l8", cat: "ATD", text: "Sigo os processos e regras da empresa mesmo quando ninguém está olhando." },
+    { id: "l9", cat: "VND", text: "Gosto do desafio de bater metas e ser reconhecida por resultados." },
+    { id: "l10", cat: "VND", text: "Sinto-me à vontade em oferecer produtos/serviços e mostrar seus benefícios." },
+    { id: "l11", cat: "VND", text: "Tenho ambição de crescer profissionalmente dentro de uma empresa em que acredito." },
+    { id: "l12", cat: "VND", text: "Não desisto fácil quando encontro uma primeira objeção ou um \"não\"." }
+  ];
+
+  var CAT_NAMES = { COM: "Comunicação", ATD: "Atendimento/Cultura", VND: "Vendas/Crescimento" };
+  var LETTERS = ["A", "B", "C", "D"];
+  var WHATSAPP_NUMBER = "5511948397018";
+  var TOTAL_FIELDS = 1 + SITUATIONS.length + LIKERT.length;
+
+  var situacoesRoot = document.getElementById("situacoesRoot");
+  var likertRoot = document.getElementById("likertRoot");
+
+  SITUATIONS.forEach(function (s, idx) {
+    var div = document.createElement("div");
+    div.className = "situation";
+    var optsHtml = s.options.map(function (opt, i) {
+      return '<label class="option" data-name="' + s.id + '">' +
+        '<input type="radio" name="' + s.id + '" value="' + LETTERS[i] + '">' +
+        '<span class="letter">' + LETTERS[i] + ')</span>' +
+        '<span class="option-text">' + opt + '</span>' +
+        '</label>';
+    }).join("");
+    div.innerHTML =
+      '<div class="situation-num">Situação ' + (idx + 1) + '</div>' +
+      '<p class="situation-prompt">' + s.prompt + '</p>' +
+      '<div class="options">' + optsHtml + '</div>';
+    situacoesRoot.appendChild(div);
+  });
+
+  LIKERT.forEach(function (item) {
+    var div = document.createElement("div");
+    div.className = "likert-item";
+    var scaleHtml = [1, 2, 3, 4, 5].map(function (n) {
+      return '<span class="scale-btn-wrap">' +
+        '<input type="radio" name="' + item.id + '" value="' + n + '" id="' + item.id + '_' + n + '">' +
+        '<label class="scale-btn" for="' + item.id + '_' + n + '">' + n + '</label>' +
+        '</span>';
+    }).join("");
+    div.innerHTML =
+      '<p class="likert-text">' + item.text + '</p>' +
+      '<div class="scale-row">' + scaleHtml + '</div>';
+    likertRoot.appendChild(div);
+  });
+
+  var nomeInput = document.getElementById("nomeInput");
+  var submitBtn = document.getElementById("submitBtn");
+  var progressFill = document.getElementById("progressFill");
+  var progressLabel = document.getElementById("progressLabel");
+
+  document.addEventListener("change", function (e) {
+    if (e.target.matches('.option input[type="radio"]')) {
+      var name = e.target.name;
+      document.querySelectorAll('.option[data-name="' + name + '"]').forEach(function (l) {
+        l.classList.remove("is-selected");
+      });
+      e.target.closest(".option").classList.add("is-selected");
+    }
+    updateProgress();
+  });
+  nomeInput.addEventListener("input", updateProgress);
+
+  function updateProgress() {
+    var filled = nomeInput.value.trim() ? 1 : 0;
+    SITUATIONS.forEach(function (s) {
+      if (document.querySelector('input[name="' + s.id + '"]:checked')) filled++;
+    });
+    LIKERT.forEach(function (l) {
+      if (document.querySelector('input[name="' + l.id + '"]:checked')) filled++;
+    });
+    var pct = Math.round((filled / TOTAL_FIELDS) * 100);
+    progressFill.style.width = pct + "%";
+    progressLabel.textContent = filled + " de " + TOTAL_FIELDS + " preenchidos";
+    submitBtn.disabled = filled < TOTAL_FIELDS;
+    return filled;
+  }
+
+  function buildWhatsappUrl() {
+    var nome = nomeInput.value.trim();
+    var totals = { COM: 0, ATD: 0, VND: 0 };
+    var maxByCat = { COM: 0, ATD: 0, VND: 0 };
+    var answerLetters = [];
+
+    SITUATIONS.forEach(function (s) {
+      var checked = document.querySelector('input[name="' + s.id + '"]:checked');
+      var letterIdx = LETTERS.indexOf(checked.value);
+      totals[s.cat] += s.points[letterIdx];
+      maxByCat[s.cat] += 4;
+      answerLetters.push(s.id.toUpperCase() + "-" + checked.value);
+    });
+
+    var likertValues = [];
+    LIKERT.forEach(function (l) {
+      var checked = document.querySelector('input[name="' + l.id + '"]:checked');
+      var v = parseInt(checked.value, 10);
+      totals[l.cat] += v;
+      maxByCat[l.cat] += 5;
+      likertValues.push(v);
+    });
+
+    var pct = {};
+    ["COM", "ATD", "VND"].forEach(function (c) {
+      pct[c] = Math.round((totals[c] / maxByCat[c]) * 100);
+    });
+    var geral = Math.round((pct.COM + pct.ATD + pct.VND) / 3);
+
+    var band;
+    if (geral >= 85) band = "Perfil excelente";
+    else if (geral >= 70) band = "Bom perfil";
+    else if (geral >= 50) band = "Perfil moderado";
+    else band = "Não recomendado";
+
+    var now = new Date();
+    var dataStr = String(now.getDate()).padStart(2, "0") + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + now.getFullYear();
+
+    var msg = "📋 Teste de Perfil - Estagiária Sognares\n" +
+      "Nome: " + nome + "\n" +
+      "Data: " + dataStr + "\n\n" +
+      "RESULTADO\n" +
+      "Comunicação: " + pct.COM + "%\n" +
+      "Atendimento/Cultura: " + pct.ATD + "%\n" +
+      "Vendas/Crescimento: " + pct.VND + "%\n" +
+      "Geral: " + geral + "% (" + band + ")\n\n" +
+      "RESPOSTAS\n" +
+      "Situações: " + answerLetters.join(" ") + "\n" +
+      "Autoavaliação (1-12): " + likertValues.join(",");
+
+    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+  }
+
+  submitBtn.addEventListener("click", function () {
+    if (updateProgress() < TOTAL_FIELDS) return;
+    var url = buildWhatsappUrl();
+    document.getElementById("formRoot").classList.add("hide");
+    document.getElementById("thanksScreen").classList.add("show");
+    document.getElementById("manualLink").href = url;
+    window.location.href = url;
+  });
+})();
+</script>
+</body>
+</html>
