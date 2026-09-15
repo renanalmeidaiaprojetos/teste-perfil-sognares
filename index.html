@@ -375,16 +375,15 @@
     </div>
 
     <div class="submit-zone">
-      <button class="primary" id="submitBtn" disabled>Finalizar e enviar</button>
-      <p class="submit-note">Ao finalizar, seu WhatsApp abrirá com o resultado pronto para enviar à clínica.</p>
+      <button class="primary" id="submitBtn" disabled>Finalizar teste</button>
+      <p class="submit-note">Ao finalizar, suas respostas serão registradas.</p>
     </div>
   </div>
 
   <div class="thanks" id="thanksScreen">
     <div class="check"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-    <h2>Obrigado!</h2>
+    <h2>Teste concluído com sucesso!</h2>
     <p>Suas respostas foram registradas. A equipe da Clínica Sognares entrará em contato em breve.</p>
-    <a href="#" class="manual-link" id="manualLink">O WhatsApp não abriu? Toque aqui para enviar</a>
   </div>
 </div>
 
@@ -393,46 +392,46 @@
   var SITUATIONS = [
     { id: "s1", cat: "COM", prompt: "Uma paciente liga muito irritada porque a consulta foi remarcada sem aviso prévio. Você atende a ligação. Qual a primeira atitude que você tomaria?",
       options: [
-        "Explico rapidamente que não fui eu quem remarcou e transfiro a ligação para outra pessoa resolver.",
-        "Deixo a pessoa desabafar, peço desculpas pelo transtorno e pergunto como posso ajudar a resolver.",
-        "Digo que vou verificar e peço para ela ligar novamente mais tarde.",
-        "Concordo com tudo o que ela diz e prometo coisas que não tenho certeza se poderei cumprir."
-      ], points: [1, 4, 2, 2] },
+        "Já ofereço remarcar para o próximo horário livre que eu encontrar, para resolver rápido e não prolongar a ligação.",
+        "Explico que a remarcação não foi comigo e peço para ela aguardar eu verificar com quem organiza a agenda.",
+        "Peço desculpas pelo transtorno, escuto o que ela tem a dizer e já busco com ela a melhor solução possível.",
+        "Deixo ela desabafar, concordo com tudo o que reclama da clínica e garanto que isso nunca mais vai acontecer."
+      ], points: [2, 2, 4, 1] },
     { id: "s2", cat: "COM", prompt: "Você precisa explicar para um paciente idoso, que não tem intimidade com tecnologia, como confirmar a consulta pelo WhatsApp. Como você faz?",
       options: [
+        "Anoto o passo a passo num papel para ele seguir sozinho depois, assim não preciso ficar explicando agora.",
         "Explico com calma, em linguagem simples, e confirmo se ele conseguiu entender cada passo.",
-        "Envio o passo a passo por escrito, com os termos técnicos normais, e presumo que ele vai entender.",
-        "Digo que é fácil e sugiro que ele peça ajuda a um familiar.",
-        "Faço o processo por ele mesmo, sem explicar nada, só para resolver logo."
-      ], points: [4, 1, 2, 2] },
+        "Faço a confirmação eu mesma pelo celular dele, sem explicar nada, para garantir que funcione.",
+        "Pergunto se ele tem algum filho ou neto por perto que possa fazer isso com ele."
+      ], points: [2, 4, 1, 2] },
     { id: "s3", cat: "ATD", prompt: "Um paciente chega 20 minutos atrasado para a consulta, o que vai atrasar os próximos agendamentos do dia. O que você faz?",
       options: [
-        "Atendo com cordialidade, explico com transparência o impacto na agenda e busco a melhor solução possível.",
-        "Digo que não vai ser possível atendê-lo por causa do atraso, sem dar mais explicações.",
-        "Atendo normalmente, sem comentar nada, mesmo sabendo que isso vai bagunçar a agenda do dia inteiro.",
-        "Atendo, mas deixo transparecer minha insatisfação com o atraso."
-      ], points: [4, 1, 2, 1] },
+        "Atendo normalmente, sem comentar nada sobre o atraso, para não constranger o paciente.",
+        "Aviso que ele está atrasado e que os próximos pacientes serão prejudicados, e já encaixo ele sem checar a agenda dos horários seguintes.",
+        "Atendo, mas deixo escapar um comentário sobre como isso atrapalha o dia inteiro.",
+        "Atendo com cordialidade, explico com transparência o impacto na agenda e busco junto com ele a melhor solução."
+      ], points: [2, 2, 1, 4] },
     { id: "s4", cat: "ATD", prompt: "Você percebe que cometeu um erro no agendamento: um paciente vai chegar em um horário que já está ocupado. O que você faz?",
       options: [
+        "Aviso discretamente só a dentista, sem falar com o resto da recepção, para o erro não ficar tão exposto.",
         "Assumo o erro, aviso a equipe imediatamente e ligo para o paciente propondo uma solução antes que ele chegue.",
-        "Espero o paciente chegar para ver se dá para resolver na hora, sem avisar ninguém antes.",
-        "Tento resolver sozinha e não conto para ninguém, na esperança de que não haja problema.",
-        "Explico que o erro foi do sistema de agendamento."
-      ], points: [4, 2, 1, 1] },
+        "Ajusto o sistema para \"corrigir\" o erro sem contar pra ninguém, na esperança de que um dos dois cancele.",
+        "Espero os dois pacientes chegarem para explicar a situação na hora e ver com eles quem prefere esperar."
+      ], points: [2, 4, 1, 2] },
     { id: "s5", cat: "VND", prompt: "Uma paciente adora o tratamento indicado pela dentista, mas diz que vai \"pensar\" por causa do preço. O que você faz?",
       options: [
+        "Digo que sem problema, e envio por WhatsApp um resumo com o preço e as formas de pagamento, sem perguntar mais nada.",
+        "Digo que entendo e me limito a perguntar se ela quer que eu avise quando tiver alguma promoção.",
         "Pergunto com interesse genuíno quais são as dúvidas dela, apresento as formas de pagamento e reforço os benefícios, sem pressionar.",
-        "Digo \"tudo bem\" e não faço mais nada a respeito.",
-        "Insisto bastante e tento fechar a venda ali mesmo, mesmo com ela dizendo que quer pensar.",
-        "Encaminho para a dentista resolver, sem tentar entender o motivo da hesitação."
-      ], points: [4, 1, 2, 2] },
+        "Explico que esse tratamento tem alta procura e que as vagas podem acabar, para ela decidir logo."
+      ], points: [2, 1, 4, 2] },
     { id: "s6", cat: "VND", prompt: "Você bate a meta do mês bem antes do previsto. Qual seria sua reação mais provável?",
       options: [
-        "Fico motivada a superar ainda mais o resultado e busco novas oportunidades de indicar tratamentos e melhorar o atendimento.",
-        "Relaxo até o mês fechar, já que a meta foi cumprida.",
-        "Fico feliz, mas não muda nada no meu dia a dia.",
-        "Sinto que já fiz minha parte e foco só nas outras tarefas, sem me preocupar em manter o ritmo."
-      ], points: [4, 1, 2, 2] }
+        "Comemoro bastante com a equipe, mas confesso que relaxo um pouco no restante do mês.",
+        "Sinto que já cumpri minha parte no mês e prefiro focar nas tarefas administrativas que estavam atrasadas.",
+        "Fico satisfeita e mantenho o mesmo ritmo de sempre até o fim do mês, sem me cobrar mais que isso.",
+        "Fico motivada a superar ainda mais o resultado e busco novas oportunidades de indicar tratamentos e melhorar o atendimento."
+      ], points: [2, 1, 2, 4] }
   ];
 
   var LIKERT = [
@@ -452,7 +451,8 @@
 
   var CAT_NAMES = { COM: "Comunicação", ATD: "Atendimento/Cultura", VND: "Vendas/Crescimento" };
   var LETTERS = ["A", "B", "C", "D"];
-  var WHATSAPP_NUMBER = "5511948397018";
+  // Endpoint privado que recebe o resultado (só a Clínica Sognares tem acesso ao painel dele).
+  var RESULTS_ENDPOINT = "https://formspree.io/f/COLOQUE_AQUI_O_CODIGO";
   var TOTAL_FIELDS = 1 + SITUATIONS.length + LIKERT.length;
 
   var situacoesRoot = document.getElementById("situacoesRoot");
@@ -522,7 +522,7 @@
     return filled;
   }
 
-  function buildWhatsappUrl() {
+  function buildResultPayload() {
     var nome = nomeInput.value.trim();
     var totals = { COM: 0, ATD: 0, VND: 0 };
     var maxByCat = { COM: 0, ATD: 0, VND: 0 };
@@ -560,28 +560,36 @@
     var now = new Date();
     var dataStr = String(now.getDate()).padStart(2, "0") + "/" + String(now.getMonth() + 1).padStart(2, "0") + "/" + now.getFullYear();
 
-    var msg = "📋 Teste de Perfil - Estagiária Sognares\n" +
-      "Nome: " + nome + "\n" +
-      "Data: " + dataStr + "\n\n" +
-      "RESULTADO\n" +
-      "Comunicação: " + pct.COM + "%\n" +
-      "Atendimento/Cultura: " + pct.ATD + "%\n" +
-      "Vendas/Crescimento: " + pct.VND + "%\n" +
-      "Geral: " + geral + "% (" + band + ")\n\n" +
-      "RESPOSTAS\n" +
-      "Situações: " + answerLetters.join(" ") + "\n" +
-      "Autoavaliação (1-12): " + likertValues.join(",");
-
-    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+    return {
+      nome: nome,
+      data: dataStr,
+      comunicacao_pct: pct.COM,
+      atendimento_pct: pct.ATD,
+      vendas_pct: pct.VND,
+      geral_pct: geral,
+      faixa: band,
+      respostas_situacoes: answerLetters.join(" "),
+      autoavaliacao_1a12: likertValues.join(",")
+    };
   }
 
   submitBtn.addEventListener("click", function () {
     if (updateProgress() < TOTAL_FIELDS) return;
-    var url = buildWhatsappUrl();
-    document.getElementById("formRoot").classList.add("hide");
-    document.getElementById("thanksScreen").classList.add("show");
-    document.getElementById("manualLink").href = url;
-    window.location.href = url;
+    var payload = buildResultPayload();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+    fetch(RESULTS_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).catch(function () {
+      // mesmo se a rede falhar, a candidata só precisa ver a tela de conclusão
+    }).then(function () {
+      document.getElementById("formRoot").classList.add("hide");
+      document.getElementById("thanksScreen").classList.add("show");
+    });
   });
 })();
 </script>
